@@ -181,6 +181,45 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 10px;
 }
 
+a {
+    color: #333;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+    color: #000;
+}
+
+.entry-title {
+    text-align: center;
+    font-size: 1.9em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    padding: 10px 20px 0;
+}
+
+.entry-meta {
+    text-align: center;
+    color: #337abd;
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+
+.entry-content {
+    font-size: 18px;
+    line-height: 1.9;
+    font-weight: 300;
+    color: #000;
+}
+
+.post-category::after,
+.post-date::after,
+.post-author::after,
+.comments-link::after {
+    content: ' ·';
+    color: #000;
+}
+
 /**
  * 12.0 - Comment
  */
