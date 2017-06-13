@@ -15,8 +15,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    # url(r'^archives/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/$', views.ArchivesView.as_view(), name='archives'),    #文章归档
-    url(r'^archives/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/$', views.archives, name='archives'),  #和上一行归档同样的效果
-    # url(r'^category/(?P<category_id>[0-9]+)/$', views.CategoryView.as_view(), name='category'),  #文章分类
-    url(r'^category/(?P<category_id>[0-9]+)/$', views.category, name='category'),
+    url(r'^archives/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/$', views.ArchivesView.as_view(), name='archives'),    #文章归档，基于类的视图来实现
+    # url(r'^archives/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/$', views.archives, name='archives'),  #和上一行，基于函数实现
+    url(r'^category/(?P<category_id>[0-9]+)/$', views.CategoryView.as_view(), name='category'),  #文章分类
+    # url(r'^category/(?P<category_id>[0-9]+)/$', views.category, name='category'),
 ]
