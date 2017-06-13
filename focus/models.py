@@ -91,8 +91,29 @@ class Article(models.Model):
     class Meta:
         # Meta包含一系列选项,此处ordering 表示排序， - 逆序
         ordering = ['-last_modified_time']
+
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
+
+    # #重写save()方法，自动生成摘要 abstract,从正文摘取前N个字符保存到字段abstract，在index.html中引用
+    # def save(self, *args, **kwargs):
+    #     if not self.abstract:
+    #         #实例化一个markdown类，用于渲染content的文本
+    #         md = markdown.markdown(extensions=[
+    #             'markdown.extensions.extra',
+    #             'markdown.extensions.codehilite',
+    #         ])
+    #         #先将markdown文本渲染成html文本
+    #         #strip_tags 去掉html文本中的html标签
+    #         #从文本摘取前54个字符赋值给abstract
+    #         self.abstract = strip_tags(md.convert(self.content))[:54]
+    #     #调用父类的save()方法将数据保存到数据库
+    #     super(Article,self).save(*args, **kwargs)
+
     objects = ArticleManager()
-    
+
+
 #comment 在 comments 单独的app下完成
 # @python_2_unicode_compatible
 # class Comment(models.Model):
