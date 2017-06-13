@@ -4,7 +4,8 @@ from . import views
 
 app_name = "focus"
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
+    url(r'^$', views.IndexView.as_view(), name='index'),  #通过类视图实现
     url(r'^login/$', views.log_in, name='login'),
     url(r'^logout/$', views.log_out, name='logout'),
     url(r'^register/$', views.register, name='register'),

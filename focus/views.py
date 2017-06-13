@@ -14,20 +14,43 @@ from django.views.generic import ListView
 
 import markdown, urlparse
 
-def index(request):
-    latest_article_list = Article.objects.query_by_time()
-    articles_info = []
-    dic = {}
-    for article in latest_article_list:
-        taginfo = Article.objects.get(id=article.id)
-        dic['tag_list'] = taginfo.tags.all()
-        dic['article'] = article;
-        articles_info.append(dic)
-        dic = {}
+# def index(request):
+#     latest_article_list = Article.objects.query_by_time()
+#     articles_info = []
+#     dic = {}
+#     for article in latest_article_list:
+#         taginfo = Article.objects.get(id=article.id)
+#         dic['tag_list'] = taginfo.tags.all()
+#         dic['article'] = article;
+#         articles_info.append(dic)
+#         dic = {}
+#
+#     loginform = LoginForm()
+#     context = {'articles_info':articles_info, 'loginform':loginform}
+#     return render(request, 'index.html', context)
 
-    loginform = LoginForm()
-    context = {'articles_info':articles_info, 'loginform':loginform}
-    return render(request, 'index.html', context)
+# blog首页，通过调用as_view() 方法实现和视图函数index相同的功能
+class IndexView(ListView):
+    model = Article
+    template_name = 'index.html'
+    context_object_name = 'articles_info'
+    article_list = []
+
+    def get_queryset(self):
+        self.article_list = Article.objects.query_by_time()
+    def get_context_data(self, **kwargs):
+        articles_info = []
+        dic = {}
+        for article in self.article_list:
+            taginfo = Article.objects.get(id=article.id)
+            dic['tag_list'] = taginfo.tags.all()
+            dic['article'] = article;
+            articles_info.append(dic)
+            dic = {}
+
+        loginform = LoginForm()
+        context = {'articles_info':articles_info, 'loginform':loginform}
+        return context
 
 def log_in(request):        #注意该处命名不能为login，会重名导致错误
     if request.user.is_authenticated:
@@ -198,33 +221,14 @@ def register(request):
 
 #文章归档，通过调用as_view() 方法实现和视图函数archives相同的功能
 #参考http://zmrenwu.com/post/33/#c399
-class ArchivesView(ListView):
-    model = Article
-    template_name = 'index.html'
-    context_object_name = 'articles_info'
-    article_list = []
-
+# ArchivesView 和 IndexView 类中的属性值完全一样，可以直接继承，节省了很多代码
+class ArchivesView(IndexView):
     def get_queryset(self):
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
-        self.article_list = super(ArchivesView, self).get_queryset().filter(create_time__year=year,
-                                                               create_time__month=month
-                                                               )
-    def get_context_data(self, **kwargs):
-        articles_info = []
-        dic = {}
-        for article in self.article_list:
-            taginfo = Article.objects.get(id=article.id)
-            dic['tag_list'] = taginfo.tags.all()
-            dic['article'] = article;
-            articles_info.append(dic)
-            dic = {}
+        self.article_list = Article.objects.filter(create_time__year=year, create_time__month=month)
 
-        loginform = LoginForm()
-        context = {'articles_info':articles_info, 'loginform':loginform}
-        return context
-
-# CategoryView 和 ArchivesView 类中的属性值完全一样，可以直接继承，节省了很多代码
+# CategoryView 和 IndexView 类中的属性值完全一样，可以直接继承，节省了很多代码
 class CategoryView(ArchivesView):
     def get_queryset(self):
         cate = get_object_or_404(Category, id=self.kwargs.get('category_id'))

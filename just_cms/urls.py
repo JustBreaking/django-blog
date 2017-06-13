@@ -1,3 +1,4 @@
+#encoding:utf-8
 """just_cms URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -25,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^focus/', include(focus_urls)),
     url(r'^comments/', include(comments_urls)),
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
+    url(r'^$', views.IndexView.as_view(), name='index'),  #通过类视图实现
     url(r'', include('ckeditor_uploader.urls')),
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
