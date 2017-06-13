@@ -1,0 +1,94 @@
+{% extends 'article_base.html' %}
+{% load articleinfo %}
+
+{% block left %}
+    <!-- Left Column -->
+    <div class="col-sm-3">
+        <!-- List-Group Panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title"><span class="glyphicon glyphicon-random"></span> Completely Synergize</h1>
+            </div>
+            <div class="list-group">
+                <a href="#" class="list-group-item">Resource Taxing</a>
+                <a href="#" class="list-group-item">Premier Niche Markets</a>
+                <a href="#" class="list-group-item">Dynamically Innovate</a>
+                <a href="#" class="list-group-item">Objectively Innovate</a>
+                <a href="#" class="list-group-item">Proactively Envisioned</a>
+            </div>
+        </div>
+
+        <!-- Text Panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title"><span class="glyphicon glyphicon-cog"></span> Dramatically Engage</h1>
+            </div>
+
+            <div class="panel-body">
+                <p>Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top-line web services vis-a-vis cutting-edge deliverables.</p>
+                <p><button class="btn btn-default">Engage</button></p>
+            </div>
+        </div>
+
+        <!-- Text Panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-bullhorn"></span>
+                    Active Predomination
+                </h3>
+            </div>
+            <div class="panel-body">
+                <p>Proactively envisioned multimedia based expertise and cross-media growth strategies.</p>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">Resource</button>
+                    <button type="button" class="btn btn-default">Envision</button>
+                    <button type="button" class="btn btn-default">Niche</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Left Column -->
+{% endblock left %}
+
+{% block center %}
+    <!-- Center Column -->
+    <div class="col-sm-6">
+        <!-- Alert -->
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Synergize:</strong> Seamlessly visualize quality intellectual capital!
+        </div>
+
+        <!-- Articles -->
+        {% for article_info in articles_info %}
+            <div class="row">
+                <article class="col-xs-12">
+                    <h3><a id="article_title", href="/focus/{{ article_info|get_key:"article"|get_attr:"id" }}">{{ article_info|get_key:"article"|get_attr:"title" }}</a></h3>
+                    <div class="article_info">
+                        <span class="">{{ article_info|get_key:"article"|get_attr:"author" }}</span>
+                        <span class="">{{ article_info|get_key:"article"|get_attr:"create_time"|date:"Y-m-d H:i" }}</span>
+                    </div>
+                    <div class="category">
+                        分类：
+                         <a href="#" class>{{ article_info|get_key:"article"|get_attr:"category" }}</a>
+                    </div>
+                    <div class="category">
+                        标签：
+                        {% for tag in article_info|get_key:"tag_list" %}
+                            <a href="#">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                    <p>{{ article_info|get_key:"article"|get_attr:"content"|truncatechars_html:80 | safe }}</p>
+                    <p><button class="btn btn-default" onclick="window.location.href='/focus/{{ article_info|get_key:"article"|get_attr:"id" }}' ">Read More</button></p>
+                    <ul class="list-inline">
+                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span>{{ article_info|get_key:"article"|get_attr:"comment_num" }} Comments</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article_info|get_key:"article"|get_attr:"like_num" }} Likes</a></li>
+                    </ul>
+                </article>
+            </div>            
+            <hr>
+        {% endfor %}
+    </div>
+    <!-- /Center Column -->
+{% endblock center %}

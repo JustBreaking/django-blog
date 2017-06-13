@@ -1,0 +1,78 @@
+{% extends 'article_base.html' %}
+{% block center %}
+    <!-- Center Column -->
+    <div class="col-sm-9">
+        <!-- Article -->
+        <div class="row">
+            <article class="col-xs-12">
+                <h2>{{ article.title }}</h2>
+                <div class="article_info">
+                    <span class="">{{ article.author }}</span>
+                    <span class="">{{ article.create_time|date:"Y-m-d H:i" }}</span>
+                </div>
+                <div class="category">
+                    分类：
+                     <a href="#" class>{{ article.category }}</a>
+                </div>
+                <div class="category">
+                    标签：
+                    {% for tag in tag_list %}
+                        <a href="#">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+                <!-- <p><hr></p> -->
+                <p>{{ article.content | safe }}</p>
+
+                <ul class="list-inline">
+                    <li><a href=" "><span class="glyphicon glyphicon-comment"></span> {{ article.comment_num }} Comments</a></li>
+                    <li><a href="/focus/{{ article.id }}/keep/"><span class="glyphicon glyphicon-star-empty"></span>{{ article.keep_num }} keep</a></li>
+                    <li><a href="/focus/{{ article.id }}/poll/"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article.like_num }} likes</a></li>
+                </ul>
+            </article>
+        </div>
+        <hr>
+
+        <!-- Comments -->
+        {% if request.user.is_authenticated %}
+        <form action="{% url 'comments:article_comment' article.id %}" method="post" class="comment-form">
+            {% csrf_token  %}
+            <div>
+                <label for="{{ form.content.id_for_label }}">评论：</label>
+            </div>
+            {{ form.content }}
+            <div>
+                <button type="submit" class="comment-btn">发表</button>
+            </div>
+        </form>
+        {% else %}
+        <div class="comment">
+            注册用户需登录后才能发表评论，请
+            <a href="/focus/login">登录</a>
+            或
+            <a href="/focus/register">注册</a>
+            ，访问
+            <a href="http://127.0.0.1:8000">网站首页</a>
+        </div>
+        {% endif %}
+        <hr>
+        <div class="comment-list-panel">
+            <h3>评论列表，共 <span>{{ article.comment_set.count }}</span> 条评论</h3>
+            <ul class="comment-list list-unstyled">
+                {% for comment in comment_list %}
+                    <li class="comment-item">
+                        <span class="nickname">{{ comment.user }}</span>
+                        <time class="submit-date"
+                              datetime="{{ comment.created_time }}">{{ comment.create_time|date:"Y-m-d H:i:s" }}</time>
+                        <div class="text">
+                            {{ comment.content }}
+                        </div>
+                    </li>
+                {% empty %}
+                    暂无评论
+                {% endfor %}
+            </ul>
+        </div>
+        <hr>
+    </div>
+    <!-- /Center Column -->
+{% endblock center %}

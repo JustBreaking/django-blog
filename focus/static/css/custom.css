@@ -1,0 +1,229 @@
+h1, h2, h3, h4, h5, h6 {
+	color: black;
+	}
+
+#side-carousel img {
+	margin: 0 auto;
+	}
+
+.footer-blurb {
+    padding: 30px 0;
+    margin-top: 20px;
+    background-color: #eee;
+    color: black;
+}
+
+.footer-blurb-item {
+    padding: 20px;
+    }
+
+.small-print {
+	background-color: #fff;
+	padding: 30px 0;
+}
+
+.feature,
+.page-intro,
+.article-intro,
+.small-print {
+	text-align: center;
+	}
+
+.article_info {
+	margin-top:12px;
+	margin-bottom:12px;
+	font-size:15px
+}
+.article_info span {
+	color:#777;margin-right:2px
+}
+
+.category {
+    line-height:24px;
+    letter-spacing:0.31em;
+    *letter-spacing:normal;
+	font-size: 10px;
+}
+
+/*link 链接平常的状态*/
+/*visited 链接被访问过之后*/
+/*hover 鼠标放在链接上之后*/
+/*active 鼠标按下之后*/
+.category a:link {
+    background-color:#ffa;
+    color: #37e;
+	font-size: 10px;
+	font-family:Courier New!important;
+}
+
+.category a:hover {
+    background-color:#aaa;
+    color: #37e;
+	font-size: 10px;
+	font-family:Courier New!important;
+}
+
+.category a {
+    display:inline-block;*
+    display:inline;
+    letter-spacing:normal;
+    margin:0 8px 8px 0;
+    padding:0 8px;
+    background-color:##f2dede;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+}
+
+.widget {
+    background: #fff;
+    padding: 30px 0 0;
+}
+
+.widget-title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    padding: 10px 0 0;
+    font-weight: 400;
+}
+
+.widget-recent-posts ul {
+    padding: 0;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.widget-recent-posts ul li {
+    list-style-type: none;
+    position: relative;
+    line-height: 170%;
+    margin-bottom: 10px;
+}
+
+.widget-recent-posts ul li::before {
+    content: '\f3d3';
+    font-family: "Ionicons";
+    position: absolute;
+    left: -17px;
+    top: 3px;
+    font-size: 16px;
+    color: #000;
+}
+
+.widget-archives ul {
+    padding: 0;
+    margin: 0;
+    padding-left: 25px;
+}
+
+.widget-archives ul li {
+    list-style-type: none;
+    position: relative;
+    line-height: 170%;
+    margin-bottom: 10px;
+}
+
+.widget-archives ul li::before {
+    content: '\f3f3';
+    font-family: "Ionicons";
+    position: absolute;
+    left: -25px;
+    top: 1px;
+    font-size: 16px;
+    color: #000;
+}
+
+.widget-category ul {
+    padding: 0;
+    margin: 0;
+    padding-left: 25px;
+}
+
+.widget-category ul li {
+    list-style-type: none;
+    position: relative;
+    line-height: 170%;
+    margin-bottom: 10px;
+}
+
+.widget-category ul li::before {
+    content: '\f3fe';
+    font-family: "Ionicons";
+    position: absolute;
+    left: -25px;
+    top: 1px;
+    font-size: 18px;
+    color: #000;
+}
+
+.widget-tag-cloud ul {
+    padding: 0;
+    margin: 0;
+    margin-right: -10px;
+}
+
+.widget-tag-cloud ul li {
+    list-style-type: none;
+    font-size: 13px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 3px 8px;
+    border: 1px solid #ddd;
+}
+
+.widget-content ul ul {
+    margin-top: 10px;
+}
+
+.widget-content ul li {
+    margin-bottom: 10px;
+}
+
+/**
+ * 12.0 - Comment
+ */
+.comment-area {
+    padding: 0 30px 0;
+}
+
+.comment-form {
+    margin-top: 15px;
+}
+
+.comment-form .comment-btn {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
+.comment-list-panel {
+    margin-top: 30px;
+}
+
+.comment-list {
+    margin-top: 15px;
+}
+
+.comment-item:not(:last-child) {
+    border-bottom: 1px #ccc solid;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.comment-item .nickname,
+.comment-item .submit-date {
+    color: #777;
+    font-size: 14px;
+}
+
+.comment-item .nickname:after {
+    content: ' ·';
+}
+
+.comment-item .text {
+    padding-top: 5px;
+    font-size: 16px;
+}
