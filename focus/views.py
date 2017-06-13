@@ -89,6 +89,7 @@ def log_out(request):
 
 def article(request, article_id):
     article = get_object_or_404(Article, id=article_id)
+    article.increase_views()
     taginfo = Article.objects.get(id=article_id)  #多对多查询
     tag_list = taginfo.tags.all()
     loginform = LoginForm()
@@ -195,28 +196,41 @@ def register(request):
             else:
                 return render(request, 'register.html', {'form':form, 'msg':'input msg is invalid!'})
 
-class ArchivesView(ListView):   #文章归档
+#文章归档，通过调用as_view() 方法实现和视图函数archives相同的功能
+#参考http://zmrenwu.com/post/33/#c399
+class ArchivesView(ListView):
     model = Article
     template_name = 'index.html'
-    context_object_name = 'article_list'
+    context_object_name = 'articles_info'
+    article_list = []
 
     def get_queryset(self):
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
-        return super(ArchivesView, self).get_queryset().filter(create_time__year=year,
+        self.article_list = super(ArchivesView, self).get_queryset().filter(create_time__year=year,
                                                                create_time__month=month
                                                                )
+    def get_context_data(self, **kwargs):
+        articles_info = []
+        dic = {}
+        for article in self.article_list:
+            taginfo = Article.objects.get(id=article.id)
+            dic['tag_list'] = taginfo.tags.all()
+            dic['article'] = article;
+            articles_info.append(dic)
+            dic = {}
 
-class CategoryView(ListView):   #文章分类
-    model = Article
-    template_name = 'index.html'
-    context_object_name = 'categories_list'
+        loginform = LoginForm()
+        context = {'articles_info':articles_info, 'loginform':loginform}
+        return context
 
+# CategoryView 和 ArchivesView 类中的属性值完全一样，可以直接继承，节省了很多代码
+class CategoryView(ArchivesView):
     def get_queryset(self):
         cate = get_object_or_404(Category, id=self.kwargs.get('category_id'))
-        return super(CategoryView, self).get_queryset().filter(category=cate)
+        self.article_list = Article.objects.filter(category=cate)
 
-def archives(request, year, month):
+def archives(request, year, month): #文章归档
     article_list = Article.objects.filter(create_time__year=year, create_time__month=month).order_by('-create_time')
     articles_info = []
     dic = {}
