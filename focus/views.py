@@ -64,6 +64,11 @@ blog首页，通过调用as_view() 方法实现和视图函数index相同的功�
 
 #添加分页功能
 class IndexView(ListView):
+    '''
+    model:将model指定为Article，告诉django要获取的模型是Article
+    template_name:指定这个视图的渲染模板
+    context_object_name:指定 获取的模型列表数据 保存的变量名，该变量会被传递给模板
+    '''
     model = Article
     template_name = 'index.html'
     context_object_name = 'article_list'
@@ -113,7 +118,6 @@ class IndexView(ListView):
             'loginform':loginform,
         })
         #将更新后的context返回，以便使用这个字典中的模板变量去渲染模板
-        print "context..........................",context
         return context
 
     def pagination_data(self, paginator, page, is_paginated):
@@ -382,43 +386,53 @@ def register(request):
                     return redirect('/focus/login')
             else:
                 return render(request, 'register.html', {'form':form, 'msg':'input msg is invalid!'})
-
+'''
 #文章归档，通过调用as_view() 方法实现和视图函数archives相同的功能
 #参考http://zmrenwu.com/post/33/#c399
-# ArchivesView 和 IndexView 类中的属性值完全一样，可以直接继承，节省了很多代码
-class ArchivesView(ListView):
-    '''
-    model:将model指定为Article，告诉django要获取的模型是Article
-    template_name:指定这个视图的渲染模板
-    context_object_name:指定 获取的模型列表数据 保存的变量名，该变量会被传递给模板
-    '''
-    model = Article
-    template_name = 'index.html'
-    context_object_name = 'articles_info'
-    article_list = []
+# ArchivesView 和 IndexView 类中的属性值完全一样，唯一不同的是文章列表，这里通过重写get_queryset方法找出归档下的文章列表
+#最终实现归档页面的分页功能
+'''
+class ArchivesView(IndexView):
+    #覆盖父类的get_queryset方法，该方法默认获取了指定模型的全部数据列表，为了获取特定时间的文章列表，这里通过filter进行筛选
     def get_queryset(self):
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
-        self.article_list = Article.objects.filter(create_time__year=year, create_time__month=month)
-    def get_context_data(self, **kwargs):
-        articles_info = []
-        dic = {}
-        for article in self.article_list:
-            taginfo = Article.objects.get(id=article.id)
-            dic['tag_list'] = taginfo.tags.all()
-            dic['article'] = article;
-            articles_info.append(dic)
-            dic = {}
+        return super(ArchivesView,self).get_queryset().filter(create_time__year=year, create_time__month=month)
 
-        loginform = LoginForm()
-        context = {'articles_info':articles_info, 'loginform':loginform}
-        return context
-
-# CategoryView 和 IndexView 类中的属性值完全一样，可以直接继承，节省了很多代码
-class CategoryView(ArchivesView):
+# CategoryView 和 IndexView 类中的属性值完全一样，唯一不同的是文章列表，这里通过重写get_queryset方法找出归档下的文章列表
+class CategoryView(IndexView):
     def get_queryset(self):
         cate = get_object_or_404(Category, id=self.kwargs.get('category_id'))
-        self.article_list = Article.objects.filter(category=cate)
+        return super(CategoryView,self).get_queryset().filter(category=cate)
+
+# class CategoryView(IndexView):
+#     def get_queryset(self):
+#         cate = get_object_or_404(Category, id=self.kwargs.get('category_id'))
+#         self.article_list = Article.objects.filter(category=cate)
+#     def get_context_data(self, **kwargs):
+#         context = super(IndexView,self).get_context_data(**kwargs)
+#
+#         paginator = context.get('paginator')
+#         page = context.get('page_obj')
+#         is_paginated = context.get('is_paginated')
+#         article_list = context.get('article_list')
+#
+#         articles_info = []
+#         dic = {}
+#         for article in article_list:
+#             taginfo = Article.objects.get(id=article.id)
+#             dic['tag_list'] = taginfo.tags.all()
+#             dic['article'] = article;
+#             articles_info.append(dic)
+#             dic = {}
+#         loginform = LoginForm()
+#         #将articles_info和loginform 加入到context中
+#         context.update({
+#             'articles_info':articles_info,
+#             'loginform':loginform,
+#         })
+#         #将更新后的context返回，以便使用这个字典中的模板变量去渲染模板
+#         return context
 
 def archives(request, year, month): #文章归档
     article_list = Article.objects.filter(create_time__year=year, create_time__month=month).order_by('-create_time')
