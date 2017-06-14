@@ -86,7 +86,7 @@ class Article(models.Model):
         #主要用于交互解释器显示表示该类的字符串
         return self.title
     def get_absolute_url(self):
-        return reverse('focus:detail', kwargs={'article_id': self.id})		#在模板中可以直接调用,获取最新文章
+        return reverse('focus:detail', kwargs={'pk': self.id})		#在模板中可以直接调用,获取最新文章,pk对应urls pattern中的pk
 
     class Meta:
         # Meta包含一系列选项,此处ordering 表示排序， - 逆序

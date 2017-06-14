@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.hashers import make_password
 from django.http  import  HttpResponseRedirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 import markdown, urlparse
 
@@ -265,28 +265,69 @@ def log_out(request):
 #         'comments':comments
 #     })
 
-def detail(request, article_id):
-    article = get_object_or_404(Article, id=article_id)
-    article.increase_views()
-    taginfo = Article.objects.get(id=article_id)  #多对多查询
-    tag_list = taginfo.tags.all()
-    loginform = LoginForm()
-    article.content = markdown.markdown(article.content, extensions=[
-        'markdown.extensions.extra',
-        'markdown.extensions.codehilite',
-        'markdown.extensions.toc',
-    ])
-    form = CommentForm()
-    #获取该article所有的comment
-    comment_list = article.comment_set.all()
-    context = {
-        'article':article,
-        'form':form,
-        'loginform':loginform,
-        'comment_list':comment_list,
-        'tag_list':tag_list,
-    }
-    return render(request, 'detail.html', context)
+# def detail(request, article_id):
+#     article = get_object_or_404(Article, id=article_id)
+#     article.increase_views()
+#     taginfo = Article.objects.get(id=article_id)  #多对多查询
+#     tag_list = taginfo.tags.all()
+#     loginform = LoginForm()
+#     article.content = markdown.markdown(article.content, extensions=[
+#         'markdown.extensions.extra',
+#         'markdown.extensions.codehilite',
+#         'markdown.extensions.toc',
+#     ])
+#     form = CommentForm()
+#     #获取该article所有的comment
+#     comment_list = article.comment_set.all()
+#     context = {
+#         'article':article,
+#         'form':form,
+#         'loginform':loginform,
+#         'comment_list':comment_list,
+#         'tag_list':tag_list,
+#     }
+#     return render(request, 'detail.html', context)
+
+#通过类视图实现
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'detail.html'
+    context_object_name = 'article'
+    def get(self, request, *args, **kwargs):
+        '''
+        # 覆写 get 方法的目的是因为每当文章被访问一次，就得将文章阅读量 +1
+        # get 方法返回的是一个 HttpResponse 实例
+        # 之所以需要先调用父类的 get 方法，是因为只有当 get 方法被调用后，
+        # 才有 self.object 属性，其值为 Post 模型实例，即被访问的文章 post
+        '''
+        response = super(ArticleDetailView,self).get(request, *args, **kwargs)
+        #访问量+1， self.object的值就是被访问的文章
+        self.object.increase_views()
+        #视图必须返回一个HttpResponse对象
+        return response
+
+    #覆写该方法的目的是需要对article的content值进行渲染
+    def get_object(self, queryset=None):
+        article = super(ArticleDetailView,self).get_object(queryset=None)
+        article.content = markdown.markdown(article.content,extensions=[
+                                          'markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc',
+        ])
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView,self).get_context_data(**kwargs)
+        form = CommentForm
+        comment_list = self.object.comment_set.all()
+        loginform = LoginForm()
+        context.update({
+            'form':form,
+            'comment_list':comment_list,
+            'loginform':loginform
+        })
+        return context
+
 
 # 交给了单独的 comments app模块实现
 # @login_required
