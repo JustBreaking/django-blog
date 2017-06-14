@@ -288,3 +288,12 @@ a:hover, a:focus {
 .current a {
     color: red;
 }
+
+.rss {
+    font-size: 21px;
+    margin-top: 30px;
+}
+
+.rss a {
+    color: #444;
+}

@@ -21,6 +21,7 @@ from django.conf import settings
 from focus import urls as focus_urls
 from comments import urls as comments_urls
 from focus import views
+from focus.feeds import AllArticleRssFeed
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     # url(r'^$', views.index, name='index'),
     url(r'^$', views.IndexView.as_view(), name='index'),  #通过类视图实现
     url(r'', include('ckeditor_uploader.urls')),
+    url(r'^all/rss/$', AllArticleRssFeed(), name='rss'),
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
