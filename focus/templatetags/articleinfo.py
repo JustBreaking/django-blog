@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import template
-from ..models import Article,Category
+from ..models import Article,Category,Tag
 from django.db.models.aggregates import Count
 register = template.Library()
 
@@ -32,3 +32,7 @@ def get_categories():
 @register.filter
 def get_articlenums(date):
     return Article.objects.filter(create_time__year=date.year, create_time__month=date.month).count()
+
+@register.simple_tag
+def get_tags():
+    return Tag.objects.annotate(num_articles=Count('article')).filter(num_articles__gt=0)

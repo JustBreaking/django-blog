@@ -17,8 +17,8 @@
                 </div>
                 <div class="category">
                     标签：
-                    {% for tag in tag_list %}
-                        <a href="#">{{ tag }}</a>
+                    {% for tag in article.tags.all %}
+                        <a href="{% url "focus:tag" tag.id %}">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
                 <!-- <p><hr></p> -->

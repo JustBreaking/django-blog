@@ -405,6 +405,11 @@ class CategoryView(IndexView):
         cate = get_object_or_404(Category, id=self.kwargs.get('category_id'))
         return super(CategoryView,self).get_queryset().filter(category=cate)
 
+class TagView(IndexView):
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, id=self.kwargs.get('tag_id'))
+        return super(TagView,self).get_queryset().filter(tags=tag)
+
 # class CategoryView(IndexView):
 #     def get_queryset(self):
 #         cate = get_object_or_404(Category, id=self.kwargs.get('category_id'))
