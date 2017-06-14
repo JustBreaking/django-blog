@@ -36,7 +36,7 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="#">Home</a>
+                        <a href="{% url "focus:index" %}">Home</a>
                     </li>
                     <li>
                         <a href="#">About</a>
@@ -92,7 +92,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">hi:{{ user }} <a href="/focus/logout/"><input class="btn btn-default" type="submit" value="Logout" /></a></div>
+                    <div class="form-group">Hi {{ user }} <a href="{% url "focus:logout" %}"><input class="btn btn-default" type="submit" value="Logout" /></a></div>
                 </div>
             </div>
             {% else %}

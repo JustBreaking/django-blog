@@ -101,22 +101,10 @@ class IndexView(ListView):
         pagination_data = self.pagination_data(paginator, page, is_paginated)
         #将分页信息数据更新到context中，注意pagination_data方法返回的也是一个字典
         context.update(pagination_data)
-        #由于在index.html模板中，我们并没有article_list这个变量，而是封装了tag信息的articles_info变量，
-        #所以在这里我们要在context中加上这个变量,最后还要加上登陆的loginform变量
-        articles_info = []
-        dic = {}
-        for article in article_list:
-            taginfo = Article.objects.get(id=article.id)
-            dic['tag_list'] = taginfo.tags.all()
-            dic['article'] = article;
-            articles_info.append(dic)
-            dic = {}
+
         loginform = LoginForm()
         #将articles_info和loginform 加入到context中
-        context.update({
-            'articles_info':articles_info,
-            'loginform':loginform,
-        })
+        context.update({'loginform':loginform,})
         #将更新后的context返回，以便使用这个字典中的模板变量去渲染模板
         return context
 

@@ -4,14 +4,14 @@ from ..models import Article,Category,Tag
 from django.db.models.aggregates import Count
 register = template.Library()
 
-@register.filter
-def get_key(d, key_name):
-    return d.get(key_name)
-
-@register.filter
-def get_attr(d, m):
-    if hasattr(d, m):
-        return getattr(d, m)
+# @register.filter
+# def get_key(d, key_name):
+#     return d.get(key_name)
+#
+# @register.filter
+# def get_attr(d, m):
+#     if hasattr(d, m):
+#         return getattr(d, m)
 
 @register.simple_tag
 def get_recent_articles(num=5):

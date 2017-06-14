@@ -13,7 +13,7 @@
                 </div>
                 <div class="category">
                     分类：
-                     <a href="#" class>{{ article.category }}</a>
+                     <a href="{% url "focus:category" article.category.id %}" class>{{ article.category }}</a>
                 </div>
                 <div class="category">
                     标签：
@@ -25,8 +25,8 @@
                 <p>{{ article.content | safe }}</p>
 
                 <ul class="list-inline">
-                    <li><a href="/focus/{{ article.id }}/keep/"><span class="glyphicon glyphicon-star-empty"></span>{{ article.keep_num }} keep</a></li>
-                    <li><a href="/focus/{{ article.id }}/poll/"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article.like_num }} likes</a></li>
+                    <li><a href="{% url "focus:keep" article.id %}"><span class="glyphicon glyphicon-star-empty"></span>{{ article.keep_num }} keep</a></li>
+                    <li><a href="{% url "focus:poll" article.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article.like_num }} likes</a></li>
                 </ul>
             </article>
         </div>
@@ -47,11 +47,11 @@
         {% else %}
         <div class="comment">
             注册用户需登录后才能发表评论，请
-            <a href="/focus/login">登录</a>
+            <a href="{% url "focus:login" %}">登录</a>
             或
-            <a href="/focus/register">注册</a>
+            <a href="{% url "focus:register" %}">注册</a>
             ，访问
-            <a href="http://127.0.0.1:8000">网站首页</a>
+            <a href="{% url "focus:index" %}">网站首页</a>
         </div>
         {% endif %}
         <hr>

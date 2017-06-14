@@ -61,35 +61,30 @@
         </div>
 
         <!-- Articles -->
-        {% for article_info in articles_info %}
+        {% for article in article_list %}
             <div class="row">
                 <article class="col-xs-12">
-                    <!-- <h3><a id="article_title", href="/focus/{{ article_info|get_key:"article"|get_attr:"id" }}">{{ article_info|get_key:"article"|get_attr:"title" }}</a></h3>
-                    <div class="article_info">
-                        <span class="">{{ article_info|get_key:"article"|get_attr:"author" }}</span>
-                        <span class="">{{ article_info|get_key:"article"|get_attr:"create_time"|date:"Y-m-d H:i" }}</span>
-                    </div> -->
-                    <h2 class="entry-title"><a href="/focus/{{ article_info|get_key:"article"|get_attr:"id" }}">{{ article_info|get_key:"article"|get_attr:"title" }}</a></h2>
+                    <h2 class="entry-title"><a href="{% url "focus:detail" article.id %}">{{ article.title }}</a></h2>
                     <div class="entry-meta">
-                        <span class="post-author">{{ article_info|get_key:"article"|get_attr:"author" }}</span>
-                        <span class="post-date">{{ article_info|get_key:"article"|get_attr:"create_time"|date:"Y-m-d H:i" }}</span>
-                        <span class="views-count">浏览 {{ article_info|get_key:"article"|get_attr:"views" }}</span>
+                        <span class="post-author">{{ article.author }}</span>
+                        <span class="post-date">{{ article.create_time|date:"Y-m-d H:i" }}</span>
+                        <span class="views-count">浏览 {{ article.views }}</span>
                     </div>
                     <div class="category">
                         分类：
-                         <a href="#" class>{{ article_info|get_key:"article"|get_attr:"category" }}</a>
+                         <a href="{% url "focus:category" article.category.id %}" class>{{ article.category }}</a>
                     </div>
                     <div class="category">
                         标签：
-                        {% for tag in article_info|get_key:"tag_list" %}
-                            <a href="#">{{ tag }}</a>
+                        {% for tag in article.tags.all %}
+                            <a href="{% url "focus:tag" tag.id %}">{{ tag.name }}</a>
                         {% endfor %}
                     </div>
-                    <p>{{ article_info|get_key:"article"|get_attr:"content"|truncatechars_html:54 | safe }}</p>
-                    <p><button class="btn btn-default" onclick="window.location.href='/focus/{{ article_info|get_key:"article"|get_attr:"id" }}' ">Read More</button></p>
+                    <p>{{ article.content|truncatechars_html:54 | safe }}</p>
+                    <p><button class="btn btn-default" onclick="window.location.href='{% url "focus:detail" article.id %}' ">Read More</button></p>
                     <ul class="list-inline">
-                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span>{{ article_info|get_key:"article"|get_attr:"comment_num" }} Comments</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article_info|get_key:"article"|get_attr:"like_num" }} Likes</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span>{{ article.comment_num }} Comments</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article.like_num }} Likes</a></li>
                     </ul>
                 </article>
             </div>            
