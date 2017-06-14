@@ -12,7 +12,7 @@ urlpatterns = [
     # url(r'^(?P<article_id>[0-9]+)/comment/$', views.comment, name='comment'),   #comments 独立模块下完成
     url(r'^(?P<article_id>[0-9]+)/poll/$', views.get_poll, name='poll'),
     url(r'^(?P<article_id>[0-9]+)/keep/$', views.get_keep, name='keep'),
-    url(r'^(?P<article_id>[0-9]+)/$', views.article, name='detail'),
+    url(r'^(?P<article_id>[0-9]+)/$', views.detail, name='detail'),
 ]
 
 urlpatterns += [

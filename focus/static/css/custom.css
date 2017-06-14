@@ -181,14 +181,14 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 10px;
 }
 
-a {
+/*a {
     color: #333;
 }
 
 a:hover, a:focus {
     text-decoration: none;
     color: #000;
-}
+}*/
 
 .entry-title {
     text-align: center;
@@ -214,9 +214,9 @@ a:hover, a:focus {
 
 .post-category::after,
 .post-date::after,
-.post-author::after,
+/*.post-author::after,*/
 .comments-link::after {
-    content: ' ·';
+    content: '';
     color: #000;
 }
 
@@ -265,4 +265,26 @@ a:hover, a:focus {
 .comment-item .text {
     padding-top: 5px;
     font-size: 16px;
+}
+
+/**
+ * 13.0 - Pagination
+ */
+.pagination-simple {
+    padding-left: 30px;
+    font-size: 16px;
+}
+
+.pagination ul {
+    list-style: none;
+}
+
+.pagination ul li {
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.current a {
+    color: red;
 }
