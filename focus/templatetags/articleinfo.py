@@ -1,6 +1,7 @@
 #encoding:utf-8
 from django import template
 from ..models import Article,Category
+from django.db.models.aggregates import Count
 register = template.Library()
 
 @register.filter
@@ -24,4 +25,10 @@ def archives():
 #文章分类
 @register.simple_tag
 def get_categories():
-    return Category.objects.all()
+    #模板中可以获取类名和分类下的文章数num_articles
+    return Category.objects.annotate(num_articles=Count('article')).filter(num_articles__gt=0)  #注意此处有两个_
+
+#获取文章归档下的文章数量
+@register.filter
+def get_articlenums(date):
+    return Article.objects.filter(create_time__year=date.year, create_time__month=date.month).count()
