@@ -95,7 +95,7 @@ class IndexView(ListView):
         paginator = context.get('paginator')
         page = context.get('page_obj')
         is_paginated = context.get('is_paginated')
-        article_list = context.get('article_list')
+        # article_list = context.get('article_list')
 
         #调用自己写的pagination_data 方法获得显示分页导航条需要的数据
         pagination_data = self.pagination_data(paginator, page, is_paginated)
