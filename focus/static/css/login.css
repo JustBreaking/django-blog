@@ -85,4 +85,4 @@ a[href^="http://tongji.baidu.com"]{display: none;}
 .zhuce_body .login_kuang .zc .bj_bai .btn_zhuce{ width:227px; height:33px; background:#37b5f9; font-size:14px; line-height:33px; text-align:center; border:0px; color:#fff; border-radius:3px; cursor:pointer;}
 .zhuce_body .login_kuang .zc .bj_bai .btn_zhuce:hover,.login_qita_kuang .zc .left .btn_zhuce:hover{ background:#0065d0;}
 
-.bj_bai input[type="text"], .bj_bai input[type="password"]{ width:220px; height:32px; border:1px solid #dddddd; background:#faffbd; line-height:32px; padding-left:4px; color:#b1a9a9;  margin-bottom:10px; }
+.bj_bai input[type="text"], .bj_bai input[type="password"], .bj_bai input[type="email"]{ width:220px; height:32px; border:1px solid #dddddd; background:#faffbd; line-height:32px; padding-left:4px; color:#b1a9a9;  margin-bottom:10px; }
