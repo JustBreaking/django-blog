@@ -61,6 +61,15 @@
         </div>
 
         <!-- Articles -->
+        {% if error_msg %}
+            <p>{{ error_msg }}</p>
+        {% endif %}
+
+        {% ifequal article_list|length 0 %}
+            <div>
+                查询不到结果!
+            </div>
+        {% endifequal %}
         {% for article in article_list %}
             <div class="row">
                 <article class="col-xs-12">

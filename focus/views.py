@@ -13,6 +13,7 @@ from django.http  import  HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
+from django.db.models import Q
 
 import markdown, urlparse
 
@@ -503,3 +504,16 @@ def category(request, category_id):
     loginform = LoginForm()
     context = {'articles_info':articles_info, 'loginform':loginform}
     return render(request, 'index.html', context)
+
+def search(request):
+    q = request.GET.get('q')
+    print q,"--------------------"
+    error_msg = ''
+
+    if not q:
+        error_msg = "请输入关键词"
+        return render(request, 'index.html', {'error_msg': error_msg})
+
+    article_list = Article.objects.filter(Q(title__icontains=q) | Q(content__icontains=q))
+    return render(request, 'index.html', {'error_msg': error_msg,
+                                               'article_list': article_list})
