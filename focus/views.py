@@ -507,7 +507,6 @@ def category(request, category_id):
 
 def search(request):
     q = request.GET.get('q')
-    print q,"--------------------"
     error_msg = ''
 
     if not q:
