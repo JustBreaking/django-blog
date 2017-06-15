@@ -92,8 +92,8 @@
                     <p>{{ article.content|truncatechars_html:54 | safe }}</p>
                     <p><button class="btn btn-default" onclick="window.location.href='{% url "focus:detail" article.id %}' ">Read More</button></p>
                     <ul class="list-inline">
-                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span>{{ article.comment_num }} Comments</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article.like_num }} Likes</a></li>
+                        <li><a href="{% url "comments:article_comment" article.id %}"><span class="glyphicon glyphicon-comment"></span>{{ article.comment_num }} Comments</a></li>
+                        <li><a href="{% url "focus:poll" article.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>{{ article.like_num }} Likes</a></li>
                     </ul>
                 </article>
             </div>            
