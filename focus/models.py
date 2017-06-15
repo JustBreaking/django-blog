@@ -27,9 +27,11 @@ class ArticleManager(models.Manager):
 
 @python_2_unicode_compatible
 class NewUser(AbstractUser):
-    profile = models.CharField('profile', default='', max_length=256)
+    nickname = models.CharField('nickname', max_length=32, blank=True)
     def __str__(self):
         return self.username
+    class Meta(AbstractUser.Meta):
+        pass
 
 @python_2_unicode_compatible
 class Category(models.Model):

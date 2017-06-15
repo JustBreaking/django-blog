@@ -15,7 +15,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title','create_time','like_num')
 
 class NewUserAdmin(admin.ModelAdmin):
-    list_display = ('username','date_joined','profile')
+    list_display = ('username','date_joined')
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name','intro')

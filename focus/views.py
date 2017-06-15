@@ -75,7 +75,7 @@ class IndexView(ListView):
     model = Article
     template_name = 'index.html'
     context_object_name = 'article_list'
-    paginate_by = 2
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         '''
