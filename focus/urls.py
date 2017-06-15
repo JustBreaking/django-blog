@@ -12,7 +12,7 @@ urlpatterns = [
     # url(r'^(?P<article_id>[0-9]+)/comment/$', views.comment, name='comment'),   #comments 独立模块下完成
     url(r'^(?P<article_id>[0-9]+)/poll/$', views.get_poll, name='poll'),
     url(r'^(?P<article_id>[0-9]+)/keep/$', views.get_keep, name='keep'),
-    # url(r'^(?P<article_id>[0-9]+)/$', views.detail, name='detail'),
+    # url(r'^(?P<pk>[0-9]+)/$', views.detail, name='detail'),
     url(r'^(?P<pk>[0-9]+)/$', views.ArticleDetailView.as_view(), name='detail'),    #此前用的article_id 但是视图中继承了DetailView 这里必须改为pk
 ]
 

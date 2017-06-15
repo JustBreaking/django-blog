@@ -11,6 +11,8 @@ from django.views.decorators.cache import cache_page
 from django.contrib.auth.hashers import make_password
 from django.http  import  HttpResponseRedirect
 from django.views.generic import ListView, DetailView
+from django.utils.text import slugify
+from markdown.extensions.toc import TocExtension
 
 import markdown, urlparse
 
@@ -265,28 +267,28 @@ def log_out(request):
 #         'comments':comments
 #     })
 
-# def detail(request, article_id):
-#     article = get_object_or_404(Article, id=article_id)
-#     article.increase_views()
-#     taginfo = Article.objects.get(id=article_id)  #多对多查询
-#     tag_list = taginfo.tags.all()
-#     loginform = LoginForm()
-#     article.content = markdown.markdown(article.content, extensions=[
-#         'markdown.extensions.extra',
-#         'markdown.extensions.codehilite',
-#         'markdown.extensions.toc',
-#     ])
-#     form = CommentForm()
-#     #获取该article所有的comment
-#     comment_list = article.comment_set.all()
-#     context = {
-#         'article':article,
-#         'form':form,
-#         'loginform':loginform,
-#         'comment_list':comment_list,
-#         'tag_list':tag_list,
-#     }
-#     return render(request, 'detail.html', context)
+def detail(request, pk):
+    article = get_object_or_404(Article, id=pk)
+    article.increase_views()
+    taginfo = Article.objects.get(id=pk)  #多对多查询
+    tag_list = taginfo.tags.all()
+    loginform = LoginForm()
+    article.content = markdown.markdown(article.content, extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc',
+    ])
+    form = CommentForm()
+    #获取该article所有的comment
+    comment_list = article.comment_set.all()
+    context = {
+        'article':article,
+        'form':form,
+        'loginform':loginform,
+        'comment_list':comment_list,
+        'tag_list':tag_list,
+    }
+    return render(request, 'detail.html', context)
 
 #通过类视图实现
 class ArticleDetailView(DetailView):
@@ -308,12 +310,15 @@ class ArticleDetailView(DetailView):
 
     #覆写该方法的目的是需要对article的content值进行渲染
     def get_object(self, queryset=None):
-        article = super(ArticleDetailView,self).get_object(queryset=None)
-        article.content = markdown.markdown(article.content,extensions=[
-                                          'markdown.extensions.extra',
-                                          'markdown.extensions.codehilite',
-                                          'markdown.extensions.toc',
+        # 覆写 get_object 方法的目的是因为需要对 article 的 content 值进行渲染
+        article = super(ArticleDetailView, self).get_object(queryset=None)
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            TocExtension(slugify=slugify),
         ])
+        article.content = md.convert(article.content)
+        article.toc = md.toc
         return article
 
     def get_context_data(self, **kwargs):

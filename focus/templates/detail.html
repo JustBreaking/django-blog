@@ -76,3 +76,10 @@
     </div>
     <!-- /Center Column -->
 {% endblock center %}
+
+{% block toc %}
+<div class="widget widget-content">
+    <h3 class="widget-title">文章目录</h3>
+    {{ article.toc|safe }}
+</div>
+{% endblock toc %}

@@ -65,8 +65,8 @@ class Article(models.Model):
     )
     title = models.CharField('标题', max_length = 64)
     author = models.ForeignKey(Author, verbose_name='作者', null=True, on_delete=models.SET_NULL)
-    # content = models.TextField('正文')
-    content = RichTextUploadingField(verbose_name='正文')
+    content = models.TextField('正文')
+    # content = RichTextUploadingField(verbose_name='正文')   #富文本导致了markdown很多语法用不了
     create_time = models.DateTimeField('创建时间', auto_now_add=True)   #文章添加时自动添加创建时间
     last_modified_time = models.DateTimeField('最近编辑时间', auto_now=True)
     status = models.CharField('文章状态', max_length=1, choices=STATUS_CHOICES)
