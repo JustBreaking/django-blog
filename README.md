@@ -82,7 +82,7 @@ users创建成功后，django在myysite下创建一个user文件夹
 1. 克隆项目
 ```git init
 git clone https://github.com/JustBreaking/django-blog.git
-  ```
+    ```
 2. 安装依赖包
 ```pip install requirements.txt
     ```
