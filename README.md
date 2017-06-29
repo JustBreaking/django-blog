@@ -79,12 +79,14 @@ users创建成功后，django在myysite下创建一个user文件夹
 * views.py：视图，Django映射urls.py里面的url的时候，在views.py里面查找对应的处理方法
 
 ### 快速启动该项目
-1. 拷贝代码
+1. 克隆项目
+```git init
+git clone https://github.com/JustBreaking/django-blog.git
   ```
-  git init
-  git clone https://github.com/JustBreaking/django-blog.git
-  ```
-2. pip install requirements.txt
+2. 安装依赖包
+```pip install requirements.txt
+    ```
 3. 同步数据库
-  python manage.py makemigrations
-  python manage.py migrate
+```python manage.py makemigrations
+python manage.py migrate
+    ```
