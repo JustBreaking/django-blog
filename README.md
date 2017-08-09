@@ -86,7 +86,7 @@ git clone https://github.com/JustBreaking/django-blog.git
 ```
 2. 安装依赖包
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 3. 同步数据库
 ```
